@@ -1,7 +1,10 @@
 import configparser
 import os
+
 import openpyxl
+
 import qrcode
+
 # '''实现随机生成参数 生成QR码组合字符'''
 # version_value = random.randrange(1, 2, 1)
 # ERROR_CORRECT_random_vlue = random.randrange(1, 4, 1)
@@ -67,7 +70,8 @@ for data_value in data:
                     border_value = border_values[m]
                     m += 1
                     print("border_value is", border_value)
-                    qr = qrcode.QRCode(version=version_value, error_correction=error_correction_value, box_size=box_size_value,
+                    qr = qrcode.QRCode(version=version_value, error_correction=error_correction_value,
+                                       box_size=box_size_value,
                                        border=border_value, )
                     qr.add_data(data_value)
                     qr.make(fit=True)

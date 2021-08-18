@@ -1,0 +1,88 @@
+{
+  "js": {
+    "Content": "function encode(input){\n    input=input + '\\t\\r'\n   return input;\n}\n",
+    "Enable": true
+  },
+  "net": {
+    "DHCP": false,
+    "DNS": "192.168.199.1",
+    "GateWay": "192.168.199.1",
+    "Ip": "192.168.199.70",
+    "Port": "235",
+    "SubNetMask": "255.255.255.0"
+  },
+  "recipe": {
+    "Buzzer": {
+      "Duration": 80,
+      "Enable": false
+    },
+    "DecodeMode": 1,
+    "DecodeTimeoutMs": 1000,
+    "DecodeType": 5,
+    "DeviceConfig": {
+      "FunButtonEnable": true,
+      "TriggeModeEnable": true
+    },
+    "ExposureTime": 20000,
+    "FlashLight1": 0,
+    "FlashLight2": 1,
+    "FlashLight3": 0,
+    "FlashLight4": 0,
+    "GainCoefficient": 80,
+    "KeyConfig": {
+      "TrigKeyEnable": true,
+      "TuneKeyEnable": true
+    },
+    "OutLineConfig": {
+      "DurationTime": 10,
+      "OutLine1": {
+        "Abnormal": false,
+        "NG": false,
+        "OK": false
+      },
+      "OutLine2": {
+        "Abnormal": false,
+        "NG": false,
+        "OK": false
+      },
+      "OutLine3": {
+        "Abnormal": false,
+        "NG": false,
+        "OK": false
+      }
+    },
+    "PositionLight1": false,
+    "PositionLight2": false,
+    "ResultConfig": {
+      "FailedImagesSaveEnable": false,
+      "OkImagesSaveEnable": false,
+      "ResultSaveEnable": false
+    },
+    "RoiConfig": {
+      "RoiHeight": 800,
+      "RoiLeftTopX": 0,
+      "RoiLeftTopY": 0,
+      "RoiWidth": 1280
+    },
+    "ScannerID": "SmoreScanner",
+    "TriggeEnd": {
+      "DelayMs": 0,
+      "Enable": false,
+      "TriggeIo": 0,
+      "TriggeModel": 0
+    },
+    "TriggeStart": {
+      "DelayMs": 0,
+      "Enable": false,
+      "TriggeIo": 0,
+      "TriggeModel": 0
+    },
+    "TriggerIntervalms": 500
+  },
+  "serial": {
+    "Baudrate": 13,
+    "Databits": 3,
+    "Parity": 0,
+    "Stopbits": 0
+  }
+}

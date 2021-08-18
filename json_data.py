@@ -4,7 +4,6 @@ import re
 
 import openpyxl
 
-
 file = os.path.dirname(os.path.abspath(__file__))
 config = configparser.ConfigParser()
 print(config)
@@ -20,7 +19,7 @@ sheet.cell(1, 3).value = "dataset_path"
 count = 0
 succeed_false_count = 0
 succeed_true_count = 0
-image_path_line_count=0
+image_path_line_count = 0
 # sheet.cell(1, 4).value = "code_type"
 with open(filePath, 'r', encoding="utf-8") as f:
     readlines = f.readlines()
@@ -79,15 +78,15 @@ with open(filePath, 'r', encoding="utf-8") as f:
             # print("image_path_line is", image_path_line)
             # print("succeed is", s[1])
             # print("image_path_line type  is", type(image_path_line))
-            image_path_line_count+=1
-            print("image_path_line_count is",image_path_line_count)
+            image_path_line_count += 1
+            print("image_path_line_count is", image_path_line_count)
             image_name = image_path_line[0]
-            #print("image_path_line is", image_path_line.pop(0)[0][1:-1])
+            # print("image_path_line is", image_path_line.pop(0)[0][1:-1])
             # print("image_name is", str(image_name).strip('""').split('"',1))
             # print("image_name type is", type(str(image_name)))
-            image_name_value=image_path_line.pop(0)[0][1:-1]
-            print("image_name_value is",image_name_value)
-            print("image_name_value type is",type(image_name_value))
+            image_name_value = image_path_line.pop(0)[0][1:-1]
+            print("image_name_value is", image_name_value)
+            print("image_name_value type is", type(image_name_value))
             # print("image_name_value is ",list(image_name_value).pop(-2)[1:-1])
             # print("image_name_value is",list(image_name_value)[1:-1])
             sheet.cell(i + 5, 1).value = image_name_value
@@ -116,8 +115,8 @@ with open(filePath, 'r', encoding="utf-8") as f:
             results = image_name[3][1:-3]
             print("results is", results)
             # print("results is", results)
-            #print("results is", list(results).pop(0)[0][1:-1])
-            #results_value=list(results).pop(0)[1:-1][1:-1]
+            # print("results is", list(results).pop(0)[0][1:-1])
+            # results_value=list(results).pop(0)[1:-1][1:-1]
             # result_value=list(results).remove('}')
             print("results is", results)
             # print("results_value is", results_value)
@@ -127,12 +126,13 @@ with open(filePath, 'r', encoding="utf-8") as f:
             i += 1
             print("i number is", i)
 
-       # 实现统计行数及结果判断得出解码率
-            total=["统计","图片数量（数据集所有图片）","解码数量（读取成功图片）","解码正确图片","解码失败图片","解码率（解码数量除以图片数量）","解码正确率（解码正确图除以解码数量）","最大解码耗时","最小解码耗时","平均解码耗时","解码失败类型/数量"]
-            j=0
-            for j in range(len(total)-1):
-                sheet.cell(j+4, 5).value = total[j]
-                print("total is",total[j])
+            # 实现统计行数及结果判断得出解码率
+            total = ["统计", "图片数量（数据集所有图片）", "解码数量（读取成功图片）", "解码正确图片", "解码失败图片", "解码率（解码数量除以图片数量）", "解码正确率（解码正确图除以解码数量）",
+                     "最大解码耗时", "最小解码耗时", "平均解码耗时", "解码失败类型/数量"]
+            j = 0
+            for j in range(len(total) - 1):
+                sheet.cell(j + 4, 5).value = total[j]
+                print("total is", total[j])
                 # sheet.cell(4, 6).value = '图片数量（数据集所有图片）'
                 # sheet.cell(4, 7).value = '解码数量（读取成功图片）'
                 # sheet.cell(4, 6).value = '解码正确图片'
@@ -143,7 +143,7 @@ with open(filePath, 'r', encoding="utf-8") as f:
                 # sheet.cell(4, 6).value = '最小解码耗时'
                 # sheet.cell(4, 6).value = '平均解码耗时'
                 # sheet.cell(4, 6).value = '解码失败类型/数量'
-                j+=1
+                j += 1
             data.save(excelPath)
             # total_results=[""]
             # x="正确比对结果数量计算"

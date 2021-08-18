@@ -11,13 +11,17 @@ import string
 from pystrich.code128 import Code128Encoder
 from pystrich.ean13 import EAN13Encoder
 from pystrich.code39 import Code39Encoder
+from pystrich.datamatrix import DataMatrixEncoder
+
+
+# from hubarcode.datamatrix import
 
 
 def makeCode39(n):
     for i in range(n):
         code39str = ''.join(random.sample(string.ascii_uppercase, 10))
         makecode = Code39Encoder(code39str)
-        makecode.save(r'C:\Users\zhangjian\Desktop\code39\%s.png' % (code39str))
+        makecode.save(r'C:\Users\zhuoz\Desktop\code39\%s.png' % (code39str))
         print("code39str is ", code39str)
 
 
@@ -26,7 +30,7 @@ def makecode128(n):
         ran_128 = ''.join(random.sample(string.ascii_letters, 7))
         code = Code128Encoder(ran_128)
         # code.save(r'D:\Workset\barcode\code128\%s.png' %(ran_128))
-        code.save(r'C:\Users\zhangjian\Desktop\code128\%s.png' % (ran_128))
+        code.save(r'C:\Users\zhuoz\Desktop\code128\%s.png' % (ran_128))
         print(ran_128)
 
 
@@ -37,7 +41,15 @@ def makecodeEAN13(n):
         code = EAN13Encoder(ran_En13)
         print(ran_En13)
         # code.save(r'D:\Workset\barcode\EAN13\%s.png' %(ran_En13))
-        code.save(r'C:\Users\zhangjian\Desktop\EAN13\%s.png' % (ran_En13))
+        code.save(r'C:\Users\zhuoz\Desktop\codeean13\%s.png' % (ran_En13))
+
+
+def makecodeDataMatrixs(n):
+    for i in range(n):
+        DataMatrix_code = ''.join((random.sample(string.ascii_uppercase, 10)))
+        code = DataMatrixEncoder(DataMatrix_code)
+        print(DataMatrix_code)
+        code.save(r'C:\Users\zhuoz\Desktop\codedm\%s.png' % (DataMatrix_code))
 
 
 # Press the green button in the gutter to run the script.
@@ -45,3 +57,4 @@ if __name__ == '__main__':
     makeCode39(5)
     makecode128(5)
     makecodeEAN13(5)
+    makecodeDataMatrixs(5)

@@ -55,11 +55,11 @@ for row in range(2, len(code_type) + 1):
     sheet.cell(row, 4).value = code_type[row - 2]
 data.save(excelPath)
 # add avg
-
-rate = (len(result) - count) / len(picName)
-rate1 = (len(result) - count) / len(result)
-print(rate1)
-if (len(picName) == len(result) & len(ProcssTime) == len(picName)):
-    print('the process result is OK, decode rate is $rate', rate)
-
-print(rate)
+#
+# rate = (len(result) - count) / len(picName)
+# rate1 = (len(result) - count) / len(result)
+# print(rate1)
+# if (len(picName) == len(result) & len(ProcssTime) == len(picName)):
+#     print('the process result is OK, decode rate is $rate', rate)
+#
+# print(rate)
