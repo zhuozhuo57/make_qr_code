@@ -1,13 +1,13 @@
 # -*- coding=utf-8 -*-
 import configparser
 import json
+import os
+import time
 from statistics import mean
-import time, os
 
 file = os.path.dirname(os.path.abspath(__file__))
 config = configparser.ConfigParser()
 s = config.read(file + r'\config.ini')
-excelPath = config.get("Local", "ResultPath")
 filePath = config.get("Local", "logPath")
 father_dir = []
 child_dir = []
@@ -25,15 +25,11 @@ with open(filePath, 'r', encoding="utf-8") as f:
     print("version is ", s["version"])
     print("dataset_path is", s["dataset_path"])
     for i in range(len(s["decode_results"])):
-        # print("decode_results "%s,i,"is",s["decode_results"][i])
         print("image_path is", str(s["decode_results"][i]["image_path"]))
-        # sheet.cell(i+2, 1).value = str(s["decode_results"][i]["image_path"])
         print("image_name is", str(s["decode_results"][i]["image_path"]).split("/")[-1])
-        # sheet.cell(i + 2, 2).value = str(s["decode_results"][i]["image_path"]).split("/")[-1]
         succeed_value=s["decode_results"][i]["succeed"]
         print("succeed is", s["decode_results"][i]["succeed"])
         succeed_list.append(succeed_value)
-        # sheet.cell(i+2, 3).value = s["decode_results"][i]["succeed"]
         if (str(s["decode_results"][i]["succeed"]) == 'false'):
             # 返回解码失败路径
             fail_image_path = str(s["decode_results"][i]["image_path"])
@@ -56,75 +52,76 @@ with open(filePath, 'r', encoding="utf-8") as f:
             # 图片子目录
             child_dir.append(str(s["decode_results"][i]["image_path"]).strip(str(s["dataset_path"])).split("/")[1])
             print("child_dir is", child_dir)
-            # print("根据succed返回值获取 图片路径", str(s["decode_results"][i]["image_path"]).strip(str(s["dataset_path"])).split("/")[2])
         runtime=s["decode_results"][i]["run_time"]
         run_time_list.append(runtime)
         print("run_time is", s["decode_results"][i]["run_time"])
         for j in range(len(s["decode_results"][i]["results"])):
-            # print("decode_results "%s,i,"is",s["decode_results"][i]["results"][j])
             print("type is", s["decode_results"][i]["results"][j]["type"])
             sheetname_type = s["decode_results"][i]["results"][j]["type"]
             print("sheetname_type   is", sheetname_type)
             print("sheetname_type  type is", type(sheetname_type))
-            result=s["decode_results"][i]["results"][j]["result"]
+            result = s["decode_results"][i]["results"][j]["result"]
             print("result is", s["decode_results"][i]["results"][j]["result"])
-            rect_points=s["decode_results"][i]["results"][j]["rect_points"]
+            rect_points = s["decode_results"][i]["results"][j]["rect_points"]
             print("rect_points is", s["decode_results"][i]["results"][j]["rect_points"])
             j += 1
         i += 1
-        # 计算false true 数量
-        succeed_false_count = succeed_list.count('false')
-        succeed_true_count = succeed_list.count('true')
-        # # 图片总数
-        image_total = len(s["decode_results"])
-        # 解码数量
-        Number_of_decoding = len(s["decode_results"])
-        # 解码率
-        decoding_rate = "{:.2%}".format(Number_of_decoding / image_total)
-        # 解码正确率
-        decoding_accuracy = "{:.2%}".format(succeed_true_count / Number_of_decoding)
-        # 解码最大耗时
-        run_time_max = max(run_time_list)
-        # 解码最小耗时
-        run_time_min = min(run_time_list)
-        # 解码平均耗时
-        run_time_avg = mean(run_time_list)
-    print("list_fail_image_path is", list_fail_image_path)
-    print("father_dir is", father_dir)
-    set(father_dir)
-    father_dir.sort()
-    print("sort  is", father_dir)
-    print("set(father_dir) is", set(father_dir))
-    print("succeed_list=succeed_list",succeed_list)
-    fail_image_path_list = []
-    for i in range(len(set(father_dir))):
-        list(set(father_dir)).sort()
-        print("set(father_dir))is", list(set(father_dir)))
-        print("set(father_dir))is", list(set(father_dir))[i])
-        # 计算count
-        father_dir.count(list(set(father_dir))[i])
-        print("list(set(father_dir))[i]  count is", father_dir.count(list(set(father_dir))[i]))
-        # 合并写入
-        print("和并写入单行", (list(set(father_dir))[i] + ":" + str(father_dir.count(list(set(father_dir))[i]))))
-        m = list(set(father_dir))[i] + ":" + str(father_dir.count(list(set(father_dir))[i]))
-        fail_image_path_list.append(m)
-        print("fail_image_path_list  is ", str(fail_image_path_list))
-        print("fail_image_path_list  is ", str(fail_image_path_list).strip("[").strip("]").strip("'"))
-        print("fail_image_path_list  is ", str(fail_image_path_list).strip("[").strip("]").strip("'").replace("', '", "\r\n"))
-        i += 1
-    print("类型", father_dir)
-    print("数量", len(father_dir))
-    # 抽取变量
-    image_total = len(s["decode_results"])
-    Number_of_decoding = len(s["decode_results"])
-    decoding_rate = "{:.2%}".format(Number_of_decoding / image_total)
-    succeed_true_count = succeed_list.count('true')
-    decoding_accuracy = "{:.2%}".format(succeed_true_count / Number_of_decoding)
-    fail_path_total = str(fail_image_path_list).strip("[").strip("]").strip("'").replace("', '", "\r\n")
+# 计算false true 数量
+succeed_false_count = succeed_list.count('false')
+succeed_true_count = succeed_list.count('true')
+# # 图片总数
+image_total = len(s["decode_results"])
+# 解码数量
+Number_of_decoding = len(s["decode_results"])
+# 解码率
+decoding_rate = "{:.2%}".format(Number_of_decoding / image_total)
+# 解码正确率
+decoding_accuracy = "{:.2%}".format(succeed_true_count / Number_of_decoding)
+# 解码最大耗时
+run_time_max = max(run_time_list)
+# 解码最小耗时
+run_time_min = min(run_time_list)
+# 解码平均耗时
+run_time_avg = mean(run_time_list)
+print("list_fail_image_path is", list_fail_image_path)
+print("father_dir is", father_dir)
+set(father_dir)
+father_dir.sort()
+print("sort  is", father_dir)
+print("set(father_dir) is", set(father_dir))
+print("succeed_list=succeed_list", succeed_list)
+fail_image_path_list = []
+for i in range(len(set(father_dir))):
+    list(set(father_dir)).sort()
+    print("set(father_dir))is", list(set(father_dir)))
+    print("set(father_dir))is", list(set(father_dir))[i])
+    # 计算count
+    father_dir.count(list(set(father_dir))[i])
+    print("list(set(father_dir))[i]  count is", father_dir.count(list(set(father_dir))[i]))
+    # 合并写入
+    print("和并写入单行", (list(set(father_dir))[i] + ":" + str(father_dir.count(list(set(father_dir))[i]))))
+    m = list(set(father_dir))[i] + ":" + str(father_dir.count(list(set(father_dir))[i]))
+    fail_image_path_list.append(m)
+    print("fail_image_path_list  is ", str(fail_image_path_list))
+    print("fail_image_path_list  is ", str(fail_image_path_list).strip("[").strip("]").strip("'"))
+    print("fail_image_path_list  is ",
+          str(fail_image_path_list).strip("[").strip("]").strip("'").replace("', '", "\r\n"))
+    i += 1
+print("类型", father_dir)
+print("数量", len(father_dir))
+# 抽取变量
+image_total = len(s["decode_results"])
+Number_of_decoding = len(s["decode_results"])
+decoding_rate = "{:.2%}".format(Number_of_decoding / image_total)
+succeed_true_count = succeed_list.count('true')
+decoding_accuracy = "{:.2%}".format(succeed_true_count / Number_of_decoding)
+fail_path_total = str(fail_image_path_list).strip("[").strip("]").strip("'").replace("', '", "\r\n")
+
+
 # 实现html 显示
 class Template_mixin(object):
     """html报告"""
-    HTML_TMPL ="""
+    HTML_TMPL = """
 <!DOCTYPE html>
 <html lang="en">
 <body>
