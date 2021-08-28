@@ -63,17 +63,16 @@ body  { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 
 
 <details>
 <p>%(测试图片集)s详细测试结果</p>
-<summary>%(测试图片集)s详细测试结果</summary>
 <table id='result_table' class="table table-condensed table-bordered table-hover">
-    <tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;">
-        <th width="50px">id</th>
+    <tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;word-break: break-all;word-wrap: break-word; ">
+        <th width="15px">id</th>
         <th width="50px">图片路径</th>
-        <th width="50px">解码是否成功</th>
-        <th width="50px">图片处理耗时</th>
-        <th width="50px">图片解码类型</th>
+        <th width="20px">解码是否成功</th>
+        <th width="15px">图片处理耗时</th>
+        <th width="20px">图片解码类型</th>
         <th width="50px">图片解码内容</th>
         <th width="50px">图片原本标注信息</th>
-        <th width="50px">检测坐标</th>
+        <th width="15px">检测坐标</th>
     </tr>
     %(table_tr3)s
 </table>
@@ -99,15 +98,15 @@ body  { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 
         </tr>"""
     # case数据
     TABLE_TMPL_CASE = """
-        <tr id='header_row' class="failClass warning" style="font-weight: bold;font-size: 14px;">
-            <td width="50px">%(id)s</td>
+        <tr id='header_row' class="failClass warning" style="font-weight: bold;font-size: 14px;word-break: break-all;word-wrap: break-word; ">
+            <td width="15px">%(id)s</td>
             <td width="50px">%(image_path)s</td>
-            <td width="50px">%(succeed)s</td>
-            <td width="50px">%(run_time)s</td>
-            <td width="50px">%(type)s</td>
-            <td width="50px">%(result)s</td>
-            <td width="50px">%(target_result)s</td>
-            <td width="50px">%(rect_points)s</td>
+            <td width="15px">%(succeed)s</td>
+            <td width="15px">%(run_time)s</td>
+            <td width="15px">%(type)s</td>
+            <td width="50px" >%(result)s</td>
+            <td width="50px" >%(target_result)s</td>
+            <td width="50px"">%(rect_points)s</td>
         </tr>"""
 html = Template_mixin()
 id = 1
@@ -135,7 +134,6 @@ with open(filePath, 'r', encoding="utf-8") as f:
         rect_points=''
         #对results 进行处理 results 为空type 返回空
         if(results!=[]):
-            print("++++++++++++++++++++++++++++++++++++++++")
             j=1
             for j in range(len(s["decode_results"][i]["results"])):
                 print("type is", s["decode_results"][i]["results"][j]["type"])
@@ -157,7 +155,6 @@ with open(filePath, 'r', encoding="utf-8") as f:
                 rect_points = '[]'
                 j += 1
         if(succeed_value=='false'):
-            print("____________________________")
             # 返回解码失败路径
             fail_image_path = str(s["decode_results"][i]["image_path"])
             list_fail_image_path.append(fail_image_path)
@@ -289,15 +286,10 @@ if __name__ == '__main__':
     id += 1
     # 表头总数
     total_str = '共 %s，通过 %s，失败 %s' % (numfail + numsucc, numsucc, numfail)
-    # case数据
-    # id = 1
-    # for i in range(len(s["decode_results"])):
-    #
-    #     id += 1
-    #     i += 1
     output = html.HTML_TMPL % dict(测试图片集=test_result_data["测试图片集"],value=total_str, table_tr=table_tr1, table_tr2=table_tr0, table_tr3=table_tr2)
     # 生成html报告
     filename = '{date}_TestReport.html'.format(date=time.strftime('%Y%m%d%H%M%S'))
+    #filename = 'TestReport.html'
     print(filename)
     # 获取report的路径
     # dir= os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),'report')
