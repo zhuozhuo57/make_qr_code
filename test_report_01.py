@@ -49,19 +49,21 @@ body  { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 
        <col align='right' />
        <col align='right' />
     </colgroup>
-    <tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;">
+    <tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;word-break: break-all;word-wrap: break-word;">
         <th width="50px">序号</th>
         <th width="50px">测试时间</th>
         <th width="50px">提交代码commit_id</th>
         <th width="50px">测试数据集</th>
         <th width="50px">算法版本</th>
+        <th width="50px">数据集图片总数</th>
+        <th width="50px">解码图片数量</th>
+        <th width="50px">解码成功图片数量</th>
+        <th width="50px">解码失败总数</th>
         <th width="50px">解码率</th>
         <th width="50px">正确率</th>
         <th width="50px">平均耗时</th>
         <th width="50px">最大耗时</th>
         <th width="50px">最小耗时</th>
-        <th width="50px">扫码失败总数</th>
-        <th width="50px">扫码失败文件分布</th>
         <th width="50px">测试结果</th>
     </tr>
     %(table_tr2)s
@@ -69,7 +71,7 @@ body  { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 
 
 <details>
 <summary>点击查看详细测试结果</summary>
-<p>%(测试图片集)s详细测试结果</p>
+<p>%(测试数据集)s详细测试结果</p>
 <table id='result_table' class="table table-condensed table-bordered table-hover">
     <tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;word-break: break-all;word-wrap: break-word; ">
         <th width="15px">序号</th>
@@ -128,13 +130,15 @@ body  { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 
             <td width="50px">%(提交代码commit_id)s</td>
             <td width="50px">%(测试数据集)s</td>
             <td width="50px">%(算法版本)s</td>
+            <td width="50px">%(数据集图片总数)s</td>
+            <td width="50px">%(解码图片数量)s</td>
+            <td width="50px">%(解码成功图片数量)s</td>
+            <td width="50px">%(解码失败总数)s</td>
             <td width="50px">%(解码率)s</td>
             <td width="50px">%(正确率)s</td>
             <td width="50px">%(平均耗时)s</td>
             <td width="50px">%(最大耗时)s</td>
             <td width="50px">%(最小耗时)s</td>
-            <td width="50px">%(扫码失败总数)s</td>
-            <td width="50px">%(扫码失败文件分布)s</td>
             <td width="50px">%(测试结果)s</td>
         </tr>"""
     # case数据
@@ -272,9 +276,11 @@ with open(filePath, 'r', encoding="utf-8") as f:
                      "target_result": "target_result",
                      "rect_points": rect_points}
 
-        table_td_case = html.TABLE_TMPL_CASE % dict(total_id=test_data["total_id"], image_path=test_data["image_path"],
+        table_td_case = html.TABLE_TMPL_CASE % dict(total_id=test_data["total_id"],
+                                                    image_path=test_data["image_path"],
                                                     succeed=test_data["succeed"],
-                                                    run_time=test_data["run_time"], type=test_data["type"],
+                                                    run_time=test_data["run_time"],
+                                                    type=test_data["type"],
                                                     result=test_data["result"],
                                                     target_result=test_data["target_result"],
                                                     rect_points=test_data["rect_points"])
@@ -342,7 +348,11 @@ Number_of_decoding = len(s["decode_results"])
 decoding_rate = "{:.2%}".format(Number_of_decoding / image_total)
 succeed_true_count = succeed_list.count('true')
 decoding_accuracy = "{:.2%}".format(succeed_true_count / Number_of_decoding)
-
+result_staus=''
+if(succeed_true_count / image_total>=0.9):
+    result_staus ="通过"
+else:
+    result_staus ="失败"
 # sheetname_type=sheetname_type
 
 # 实现html 显示
@@ -355,36 +365,38 @@ if __name__ == '__main__':
                         "提交代码commit_id": "get_commit_id",
                         "测试数据集": s["dataset_path"],
                         "算法版本": s["version"],
-                        "测试图片集": s["dataset_path"],
+                        "数据集图片总数":image_total,
+                        "解码图片数量":Number_of_decoding,
+                        "解码成功图片数量":succeed_true_count,
+                        "解码失败总数": succeed_false_count,
                         "解码率": decoding_rate,
                         "正确率": decoding_accuracy,
                         "平均耗时": run_time_avg,
                         "最大耗时": run_time_max,
                         "最小耗时": run_time_min,
-                        "扫码失败总数": succeed_false_count,
-                        "扫码失败文件分布": "fail_path_total",
-                        "测试结果": "result_staus"}
+                        "测试结果": result_staus}
     # 总表数据
     table_td = html.TABLE_TMPL_TOTAL % dict(序号=test_result_data['序号'],
                                             测试时间=test_result_data['测试时间'],
                                             提交代码commit_id=test_result_data['提交代码commit_id'],
                                             测试数据集=test_result_data['测试数据集'],
                                             算法版本=test_result_data["算法版本"],
-                                            测试图片集=test_result_data["测试图片集"],
+                                            数据集图片总数=test_result_data["数据集图片总数"],
+                                            解码图片数量=test_result_data["解码图片数量"],
+                                            解码成功图片数量=test_result_data["解码成功图片数量"],
+                                            解码失败总数=test_result_data["解码失败总数"],
                                             解码率=test_result_data["解码率"],
                                             正确率=test_result_data["正确率"],
                                             平均耗时=test_result_data["平均耗时"],
                                             最大耗时=test_result_data["最大耗时"],
                                             最小耗时=test_result_data["最小耗时"],
-                                            扫码失败总数=test_result_data["扫码失败总数"],
-                                            扫码失败文件分布=test_result_data["扫码失败文件分布"],
                                             测试结果=test_result_data["测试结果"]
                                             )
     table_tr0 += table_td
     id += 1
     # 表头总数
     total_str = '共 %s，通过 %s，失败 %s' % (numfail + numsucc, numsucc, numfail)
-    output = html.HTML_TMPL % dict(测试图片集=test_result_data["测试图片集"], value=total_str, table_tr=table_tr1,
+    output = html.HTML_TMPL % dict(测试数据集=test_result_data["测试数据集"], value=total_str, table_tr=table_tr1,
                                    table_tr2=table_tr0, table_tr3=table_tr2, table_tr2_fail=table_tr2_fail,
                                    table_tr3_filepath=table_tr3_filepath)
     # 生成html报告
