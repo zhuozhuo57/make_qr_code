@@ -1,6 +1,7 @@
 # 测试一个截取关键字的片段
 # 读取LOG日志，截取detect recognition 1:n 比较时间平均值
 import sys
+from importlib import reload
 
 import numpy as np
 
